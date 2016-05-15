@@ -1,2 +1,3 @@
 # techson_data
-Application for the collecting dataset
+Приложение для создания коллекции изображений рукописных цифр
+
