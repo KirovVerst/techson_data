@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ImageCropComponent;
 
 using TechsonAPIComponent;
 
@@ -116,6 +118,23 @@ namespace TechsonData
                 MessageBox.Show(result.Item2);
             }
             
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string path = @"\\Mac\Home\Desktop\image.png";
+            string dir = @"\\Mac\Home\Desktop\";
+            
+            Image src = Image.FromFile(path);
+            ImageCrop cropper = new ImageCrop(src);
+
+            Image[] images = cropper.Crop(2,5);
+            int i = 1;
+            foreach (Image image in images)
+            {
+                image.Save(dir + "image-" + i.ToString() + ".png", ImageFormat.Png);
+                i++;
+            }
         }
     }
 }

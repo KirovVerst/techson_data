@@ -96,6 +96,10 @@
     <None Include="Resources\search-engine-1.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ImageCropComponent\ImageCropComponent.csproj">
+      <Project>{eac29b31-79d7-48b9-867e-e2296b6afabd}</Project>
+      <Name>ImageCropComponent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TechsonAPIComponent\TechsonAPIComponent.csproj">
       <Project>{31993bf3-7033-42fc-9765-c2d8fe22327d}</Project>
       <Name>TechsonAPIComponent</Name>

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechsonData", "TechsonData\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechsonAPIComponent", "TechsonAPIComponent\TechsonAPIComponent.csproj", "{31993BF3-7033-42FC-9765-C2D8FE22327D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageCropComponent", "ImageCropComponent\ImageCropComponent.csproj", "{EAC29B31-79D7-48B9-867E-E2296B6AFABD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{31993BF3-7033-42FC-9765-C2D8FE22327D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31993BF3-7033-42FC-9765-C2D8FE22327D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31993BF3-7033-42FC-9765-C2D8FE22327D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAC29B31-79D7-48B9-867E-E2296B6AFABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC29B31-79D7-48B9-867E-E2296B6AFABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC29B31-79D7-48B9-867E-E2296B6AFABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC29B31-79D7-48B9-867E-E2296B6AFABD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
