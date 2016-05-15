@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechsonAPIComponent", "Tech
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageCropComponent", "ImageCropComponent\ImageCropComponent.csproj", "{EAC29B31-79D7-48B9-867E-E2296B6AFABD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackWhiteImageComponent", "BlackWhiteImageComponent\BlackWhiteImageComponent.csproj", "{CF6CB402-2A89-486B-85F9-4F2F3E7A7245}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EAC29B31-79D7-48B9-867E-E2296B6AFABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAC29B31-79D7-48B9-867E-E2296B6AFABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAC29B31-79D7-48B9-867E-E2296B6AFABD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF6CB402-2A89-486B-85F9-4F2F3E7A7245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF6CB402-2A89-486B-85F9-4F2F3E7A7245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF6CB402-2A89-486B-85F9-4F2F3E7A7245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF6CB402-2A89-486B-85F9-4F2F3E7A7245}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

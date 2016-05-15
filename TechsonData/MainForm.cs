@@ -11,7 +11,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ImageCropComponent;
 
+using ImageConverterComponent;
+using ImageGrayScaleComponent;
+using BlackWhiteImageComponent;
+using ImageFormatComponent;
 using TechsonAPIComponent;
+using ImageResizeComponent;
 
 namespace TechsonData
 {
@@ -58,83 +63,141 @@ namespace TechsonData
                 isImageChosen = true;
                 isImageUpdated = true;
             }
+            resetLabels();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            successLabel.Visible = false;
+        private Tuple<bool, string> CheckInputData(){
 
-            
             if (pictureBox.Image == null)
             {
-                MessageBox.Show("Выберите изображение ...", "Error");
-                return;
+                return new Tuple<bool, string>(false, "Выберите изображение ...");
             }
 
             if (isImageUpdated == false)
             {
-                MessageBox.Show("Это изображение уже было загружено", "Error");
-                return;
+                return new Tuple<bool, string>(false, "Это изображение уже было загружено");
             }
 
 
             if (usersComboBox.SelectedItem == null)
             {
-                MessageBox.Show("Выберите имя пользователя ...", "Error");
-                return;
+                return new Tuple<bool, string>(false, "Выберите имя пользователя ...");
             }
 
             if (digitsComboBox.SelectedItem == null)
             {
-                MessageBox.Show("Выберите цифру ...", "Error");
+                return new Tuple<bool, string>(false, "Выберите цифру ...");
+            }
+            return new Tuple<bool, string>(true, "");
+        }
+
+        private void resetLabels()
+        {
+            segmentLabel.Visible = false;
+            nUploadedImagesLabel.Visible = false;
+            uploadTitleLabel.Visible = false;
+            nUploadedImagesLabel.ForeColor = Color.Black;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            resetLabels();
+
+            Tuple<bool, string> resultOfChecking = CheckInputData();
+
+            if (!resultOfChecking.Item1)
+            {
+                MessageBox.Show(resultOfChecking.Item2, "Error");
                 return;
             }
 
             User user = (User)usersComboBox.SelectedItem;
-
             string imageName = Path.GetFileNameWithoutExtension(pictureBox.ImageLocation);
-
             string label = digitsComboBox.SelectedItem.ToString();
-            Tuple<int,string> result;
-            try
+
+            Image[] images = CropImage();
+            string nImages = images.Length.ToString();
+
+            nUploadedImagesLabel.Visible = true;
+            uploadTitleLabel.Visible = true;
+
+            for (int i = 0; i < images.Length; i++)
             {
-                result = TechsonAPI.UploadImage(pictureBox.Image, imageName, user.id.ToString(), label);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error");
-                return;
+                Tuple<int, string> result;
+                try
+                {
+                    int[] pixels = TransfomImage(images[i]);
+                    string data = string.Join(",", pixels);
+
+                    result = TechsonAPI.UploadImage(images[i], String.Concat(imageName,"-") + i.ToString(), user.id.ToString(), label, data);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                    return;
+                }
+                if (result.Item1 == 200)
+                {
+                    nUploadedImagesLabel.Text = String.Concat((i + 1).ToString(), " из ", nImages);
+                }
+                else
+                {
+                    MessageBox.Show(result.Item2, "Error");
+                    return;
+                }
+
             }
 
-            Console.WriteLine(result);
+            nUploadedImagesLabel.ForeColor = Color.Green;
 
-            if (result.Item1 == 200)
-            {
-                successLabel.Visible = true;
-                isImageUpdated = false;
-            }
-            else
-            {
-                MessageBox.Show(result.Item2);
-            }
+        }
+        private Image[] CropImage()
+        {
+            segmentLabel.ForeColor = Color.Black;
+            segmentLabel.Text = "Идет сегментирование ...";
+            segmentLabel.Visible = true;
             
+            Image src = pictureBox.Image;
+            ImageCrop cropper = new ImageCrop(src);
+            int m = (int)mNumericBox.Value;
+            int n = (int)nNumericBox.Value;
+            
+            Image[] images = cropper.Crop(m, n);
+
+            segmentLabel.ForeColor = Color.Green;
+            segmentLabel.Text = "Сегментирование завершено";
+
+            return images;
+        }
+        
+        private int[] TransfomImage(Image image)
+        {
+            using (ImageFormatComponent.ImageFormat imgConverter = new ImageFormatComponent.ImageFormat(image))
+            {
+                image = imgConverter.SetPngFormat();
+                using (ImageGrayScale imgGrayScale = new ImageGrayScale(image))
+                {
+                    image = imgGrayScale.Transform();
+                    using (BlackWhiteImage imgBlackWhite = new BlackWhiteImage(image))
+                    {
+                        image = imgBlackWhite.Transform();
+                        using (ImageResize imgResize = new ImageResize(image))
+                        {
+                            image = imgResize.Resize(50, 50);
+                            
+                            using (ImageToByte imgToByte = new ImageToByte(image))
+                            {
+                                return imgToByte.Transform();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void label4_Click(object sender, EventArgs e)
         {
-            string path = @"\\Mac\Home\Desktop\image.png";
-            string dir = @"\\Mac\Home\Desktop\";
-            
-            Image src = Image.FromFile(path);
-            ImageCrop cropper = new ImageCrop(src);
 
-            Image[] images = cropper.Crop(2,5);
-            int i = 1;
-            foreach (Image image in images)
-            {
-                image.Save(dir + "image-" + i.ToString() + ".png", ImageFormat.Png);
-                i++;
-            }
         }
     }
 }

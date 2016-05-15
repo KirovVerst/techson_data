@@ -48,7 +48,7 @@ namespace TechsonAPIComponent
             }
         }
 
-        public static Tuple<int, string> UploadImage(Image image, string imageNameWithoutExtension, string userId, string label)
+        public static Tuple<int, string> UploadImage(Image image, string imageNameWithoutExtension, string userId, string label, string data)
         {
             RestClient client = new RestClient(baseApiUrl);
             var request = new RestRequest("/image/", Method.POST);
@@ -56,6 +56,7 @@ namespace TechsonAPIComponent
 
             request.AddParameter("user", userId);
             request.AddParameter("label", label);
+            request.AddParameter("data", data);
 
             byte[] imageByte;
             using (var ms = new MemoryStream())
